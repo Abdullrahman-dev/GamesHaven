@@ -1,0 +1,115 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    All Games
+{% endblock %}
+
+{% block content %}
+    
+    <!-- Page Header -->
+    <header class="page-header">
+        <div class="container-xl">
+            <h1 class="display-4 fw-bold mb-0">All Games</h1>
+            <p class="lead mt-2">Explore the complete catalog of games in our database.</p>
+        </div>
+    </header>
+
+    <section class="all-games-section py-5">
+        <div class="container-xl">
+            
+            <h2 class="section-title mb-5 text-center d-none">All Games</h2>
+
+            <!-- Sorting Bar -->
+            <div class="sorting-bar d-flex justify-content-end mb-4">
+
+                <form method="GET" class="sorting-form" action="{% url 'Games:search_games' %}">
+                    <div class="d-flex gap-3">
+                        <input class="form-control" type="search" name="search" placeholder="Search" aria-label="Search" value="{{request.GET.search}}" minlength="3" required>
+                        <select name="sort" class="sorting-select" onchange="this.form.submit()">
+                            <option value="">Sort By</option>
+
+                            <option value="rating_desc" {% if request.GET.sort == "rating_desc" %}selected{% endif %}>
+                                Highest Rated
+                            </option>
+
+                            <option value="rating_asc" {% if request.GET.sort == "rating_asc" %}selected{% endif %}>
+                                Lowest Rated
+                            </option>
+
+                            <option value="newest" {% if request.GET.sort == "newest" %}selected{% endif %}>
+                                Newest
+                            </option>
+
+                            <option value="oldest" {% if request.GET.sort == "oldest" %}selected{% endif %}>
+                                Oldest
+                            </option>
+
+                            <option value="title_az" {% if request.GET.sort == "title_az" %}selected{% endif %}>
+                                Title A → Z
+                            </option>
+
+                            <option value="title_za" {% if request.GET.sort == "title_za" %}selected{% endif %}>
+                                Title Z → A
+                            </option>
+                        </select>
+
+                        {% comment %} <input type="submit" value="apply" class="btn btn-primary"> {% endcomment %}
+                    </div>
+                </form>
+
+            </div>
+
+            <div class="row g-4">
+                
+                {% for game in games %}
+                
+                <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+                    <div class="card game-card h-100 shadow-lg border-0 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-105">
+                        
+                        <img src="{{ game.poster.url }}" class="card-img-top game-card-img" alt="Game Cover">
+                        
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title fw-bold game-card-title">{{ game.title }}</h5>
+
+                            <div class="star-rating d-flex mb-3">
+                                {% for i in "12345"|make_list %}
+                                    <i class="fas fa-star me-1 {% if i|add:'0' <= game.rating %}active{% else %}inactive{% endif %}"></i>
+                                {% endfor %}
+                                <span class="ms-1 small text-muted fw-bold">({{ game.rating|default:'0' }}/5)</span>
+                            </div>
+
+                            <div class="mb-3 d-flex flex-wrap gap-2">
+                                {% if game.categories.all %}
+                                    {% for category in game.categories.all %}
+                                        <span class="category-badge">{{ category.name }}</span>
+                                    {% endfor %}
+                                {% else %}
+                                    <span class="text-muted small">No categories specified.</span>
+                                {% endif %}
+                            </div>
+
+                            <p class="card-text flex-grow-1">{{ game.description|truncatechars:100 }}</p>
+
+                            <a href="{% url 'Games:game_detail' game.id %}" class="btn btn-primary bg-dark-custom border-0 mt-3 p-2 fw-bold">
+                                View Game <i class="fas fa-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                {% empty %}
+                
+                <div class="col-12 text-center">
+                    <div class="alert alert-info" role="alert">
+                        No games found in the catalog.
+                    </div>
+                </div>
+                
+                {% endfor %}
+            </div>
+            
+        </div>
+    </section>
+
+{% endblock %}

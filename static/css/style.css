@@ -1,0 +1,357 @@
+/* Dark Mode : */
+/* ============ DARK MODE ============ */
+body.dark {
+    background-color: #111 !important;
+    color: #eee !important;
+}
+
+/* navbar */
+body.dark .bg-dark-custom {
+    background-color: #000 !important;
+}
+
+body.dark .nav-link {
+    color: #ddd !important;
+}
+
+body.dark .nav-link:hover {
+    color: #00eaff !important;
+}
+
+/* hero */
+body.dark .hero-title {
+    color: #fff !important;
+}
+
+body.dark .hero-subtitle {
+    color: #bbb !important;
+}
+
+/* footer */
+body.dark .footer-heading,
+body.dark .logo-text-footer {
+    color: #eee !important;
+}
+
+body.dark .section-title {
+    color: white;
+}
+
+body.dark .bg-light-custom {
+    background-color: #1a1a1a !important;
+}
+
+/* cards */
+body.dark .about-card,
+body.dark .contact-card {
+    background-color: #222 !important;
+    color: #eee !important;
+}
+
+
+
+body {
+    background-color: #f8f9fa; /* خلفية بيضاء خفيفة */
+    font-family: 'Poppins', sans-serif;
+    color: #343a40;
+}
+
+/* 2. شريط التنقل (Navbar) */
+.bg-dark-custom {
+    background-color: #1a1a1a !important; 
+}
+
+.logo-text {
+    /* لون الشعار (Games.Haven) */
+    color: #00bcd4 !important; /* أزرق سماوي جديد */
+    font-weight: 900; 
+    font-size: 1.5rem;
+}
+
+.navbar-nav .nav-link {
+    color: #ffffff !important;
+    font-weight: 500;
+    margin-right: 15px;
+    transition: color 0.3s;
+}
+
+.navbar-nav .nav-link:hover,
+.navbar-nav .nav-link.active {
+    color: #00bcd4 !important; /* لون التمييز */
+}
+
+/* 3. القسم الترويجي (Hero Section) */
+.hero-title {
+    font-size: 4rem; 
+    font-weight: 900 !important;
+    line-height: 1.1;
+    color: #212529; 
+    /* إضافة تظليل بسيط للنص */
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.hero-subtitle {
+    color: #6c757d; 
+    font-size: 1.25rem;
+}
+
+/* تصميم المربع البصري الجديد */
+.visual-gradient-box {
+    width: 100%;
+    max-width: 450px;
+    height: 350px;
+    border-radius: 15px; /* حواف مستديرة */
+    /* تدرج لوني عصري (Modern Gradient) */
+    background: linear-gradient(135deg, #ff7e5f, #feb47b, #a8c0ff, #3f51b5);
+    background-size: 400% 400%;
+    animation: gradientShift 10s ease infinite; /* إضافة حركة بسيطة */
+}
+
+@keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+.section-divider {
+    border-top: 2px solid #ddd;
+    opacity: 0.5;
+}
+
+.section-title {
+    font-weight: 900;
+    font-size: 2rem;
+    color: #212529;
+    /* خط سفلي بسيط للعناوين */
+    border-bottom: 3px solid #00bcd4;
+    display: inline-block;
+    padding-bottom: 5px;
+}
+
+/* 4. التذييل (Footer) */
+.bg-light-custom {
+    background-color: #f1f1f1 !important;
+}
+
+.logo-text-footer {
+    color: #212529 !important; 
+    font-weight: 900;
+}
+
+.footer-heading {
+    color: #212529; 
+    font-weight: 700;
+    font-size: 1.1rem;
+}
+
+.footer .nav-link {
+    transition: color 0.3s;
+}
+
+.footer .nav-link:hover {
+    color: #00bcd4 !important;
+}
+
+/* 5. تنسيقات الصفحات الداخلية (Contact & About) */
+.page-header {
+    background: linear-gradient(90deg, #1a1a1a, #343a40);
+    color: white;
+    padding: 60px 0;
+    margin-bottom: 40px;
+    border-bottom: 5px solid #00bcd4;
+}
+
+.contact-card, .about-card {
+    border: none;
+    border-radius: 10px;
+    transition: transform 0.3s, box-shadow 0.3s;
+}
+
+.contact-card:hover, .about-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+}
+
+/* cards in home page : */
+
+/* Styles for Star Rating Display */
+.game-card .star-rating .fa-star {
+    color: #ffc107; /* لون النجمة النشطة (ذهبي) */
+    font-size: 0.9rem;
+}
+
+.game-card .star-rating .fa-star.inactive {
+    color: #e4e5e9; /* لون النجمة غير النشطة (رمادي فاتح) */
+}
+        
+/* Styles for Category Badges */
+.category-badge {
+    display: inline-block;
+    padding: 0.3em 0.6em;
+    font-size: 70%;
+    font-weight: 600;
+    line-height: 1;
+    text-align: center;
+    border-radius: 0.25rem;
+    margin-right: 5px;
+    margin-bottom: 5px;
+    background-color: #e9ecef; /* Light background */
+    color: #495057; /* Dark text */
+}
+
+/* Dark Mode adjustment for badges */
+body.dark-mode .category-badge {
+    background-color: #343a40;
+    color: #adb5bd;
+}
+
+/* Sorting Buttons */
+/* Sorting Bar */
+.sorting-bar {
+    margin-bottom: 20px;
+}
+
+.sorting-form {
+    display: flex;
+}
+
+.sorting-select {
+    padding: 10px 14px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    border-radius: 10px;
+    border: 2px solid #00bcd4;
+    background-color: white;
+    color: #333;
+    cursor: pointer;
+    outline: none;
+    transition: 0.3s;
+}
+
+.sorting-select:hover {
+    border-color: #008fa1;
+    box-shadow: 0 0 8px rgba(0, 188, 212, 0.3);
+}
+
+.sorting-select:focus {
+    border-color: #0097a7;
+    box-shadow: 0 0 10px rgba(0, 188, 212, 0.6);
+}
+
+/* Dark Mode */
+body.dark .sorting-select {
+    background-color: #222;
+    color: #eee;
+    border-color: #00bcd4;
+}
+
+body.dark .sorting-select:hover {
+    border-color: #00eaff;
+    box-shadow: 0 0 8px rgba(0, 234, 255, 0.3);
+}
+
+
+/* Comments : */
+
+.user_comment , .username{
+    color: black;
+}
+
+/* ================================================
+   PUBLISHERS STYLING
+   ================================================ */
+
+/* Publisher Card */
+.publisher-card {
+    border-radius: 14px;
+    overflow: hidden;
+    transition: all 0.3s ease-in-out;
+    background: #fff;
+}
+
+.publisher-card:hover {
+    transform: translateY(-6px);
+    box-shadow: 0px 10px 30px rgba(0,0,0,0.15);
+}
+
+/* Publisher Logo */
+.publisher-logo {
+    width: 100%;
+    height: 180px;
+    object-fit: cover;
+    background-color: #f2f2f2;
+}
+
+/* Publisher Name */
+.publisher-name {
+    font-weight: 700;
+    font-size: 1.2rem;
+    margin-top: 10px;
+}
+
+/* Publisher Detail Header */
+.publisher-detail-header {
+    display: flex;
+    gap: 20px;
+    align-items: center;
+}
+
+.publisher-detail-logo {
+    width: 160px;
+    height: 160px;
+    border-radius: 12px;
+    object-fit: cover;
+    background-color: #e9e9e9;
+}
+
+/* Back Button */
+.back-btn-custom {
+    font-weight: bold;
+    transition: 0.2s ease;
+}
+
+.back-btn-custom:hover {
+    opacity: 0.7;
+}
+
+/* Publisher Info Card */
+.publisher-info-card {
+    border-radius: 16px;
+    padding: 30px;
+    background: white;
+    box-shadow: 0px 4px 20px rgba(0,0,0,0.08);
+}
+
+/* Section Title */
+.publisher-section-title {
+    font-weight: 700;
+    font-size: 1.6rem;
+    margin-bottom: 20px;
+}
+
+/* Dark Mode Support */
+body.dark .publisher-card {
+    background: #222;
+    border: 1px solid #444;
+}
+
+body.dark .publisher-card:hover {
+    box-shadow: 0px 10px 30px rgba(255,255,255,0.08);
+}
+
+body.dark .publisher-name {
+    color: #eee;
+}
+
+body.dark .publisher-info-card {
+    background: #1b1b1b;
+    color: #ddd;
+}
+
+body.dark .publisher-detail-logo {
+    background: #333;
+}
+
+body.dark .back-btn-custom {
+    color: #ddd !important;
+}

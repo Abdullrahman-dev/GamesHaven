@@ -1,0 +1,255 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Game Details: {{ game.title }}
+{% endblock %}
+
+{% block extra_head %}
+<!-- ⬅️ إضافة ستايل CSS لنموذج النجوم والشرائح التفاعلية ➡️ -->
+<style>
+    /* ----------------------------------- */
+    /* STAR RATING STYLES */
+    /* ----------------------------------- */
+    .rating input {
+        display: none;
+    }
+    .rating label {
+        color: #ccc;
+        font-size: 2rem;
+        padding: 0 5px;
+        cursor: pointer;
+        transition: color 0.2s ease;
+    }
+    .rating {
+        direction: rtl; 
+        display: inline-block;
+    }
+    .rating label:hover,
+    .rating label:hover ~ label {
+        color: #ffc107;
+    }
+    .rating input:checked ~ label {
+        color: #ffc107;
+    }
+    .rating input:checked + label:hover,
+    .rating input:checked + label:hover ~ label {
+        color: #ffc107;
+    }
+
+    /* Dark Mode Compatibility for Rating Stars */
+    body.dark-mode .rating label { color: #555; }
+    body.dark-mode .rating label:hover,
+    body.dark-mode .rating label:hover ~ label,
+    body.dark-mode .rating input:checked ~ label { color: #ffdb58; }
+
+    /* ----------------------------------- */
+    /* CATEGORY PILLS STYLES (New) */
+    /* ----------------------------------- */
+    
+    /* الستايل الأساسي للزر (Label) */
+    .category-label {
+        border-radius: 50px;
+        padding: 8px 15px;
+        transition: all 0.2s ease;
+        border: 2px solid #ccc;
+        color: #333;
+        background-color: #f8f9fa; /* لون خلفية فاتح */
+        cursor: pointer;
+    }
+    
+    /* عند تحديد العنصر (Checkbox checked) */
+    .btn-check:checked + .category-label {
+        background-color: #1e1e1e; /* لون خلفية داكن للتحديد */
+        color: white !important;
+        border-color: #1e1e1e;
+        font-weight: bold;
+    }
+    
+    /* Dark Mode: الستايل الأساسي للزر */
+    body.dark-mode .category-label {
+        color: #ccc;
+        border-color: #555;
+        background-color: #2c2c2c; /* خلفية داكنة للزر */
+    }
+    
+    /* Dark Mode: عند تحديد العنصر */
+    body.dark-mode .btn-check:checked + .category-label {
+        background-color: #4db6ac !important; /* لون تمييز جديد لـ Dark Mode */
+        color: #1e1e1e !important;
+        border-color: #4db6ac !important;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    
+    <!-- Back Button -->
+    <div class="mb-5">
+        <a href="{% url 'Main:home' %}" class="text-secondary text-decoration-none d-flex align-items-center fw-bold">
+            <i class="fa fa-arrow-left me-2"></i> 
+            Back to Main List
+        </a>
+    </div>
+
+    <!-- Main Game Detail Card (Enhanced Design) -->
+    <div class="card game-detail-card">
+        <div class="card-body p-4 p-md-5">
+            <div class="row g-4">
+                
+                <!-- Image Section -->
+                <div class="col-lg-5">
+                    {% if game.poster %}
+                        <img src="{{ game.poster.url }}" alt="Game Cover: {{ game.title }}" 
+                             class="img-fluid game-detail-img"
+                        >
+                    {% else %}
+                        <div class="d-flex align-items-center justify-content-center bg-secondary bg-opacity-10 text-muted game-detail-img" style="height: 400px; border-radius: 12px;">
+                            No Image Available
+                        </div>
+                    {% endif %}
+                </div>
+
+                <!-- Content Section -->
+                <div class="col-lg-7">
+                    
+                    <h1 class="game-detail-title">{{ game.title }}</h1>
+
+                    <div class="d-flex gap-2 mb-3 mt-1">
+                        <!-- Edit Button -->
+                        <a href="{% url 'Games:game_update' game.id %}" class="btn btn-sm btn-info text-white fw-bold">
+                            <i class="fa fa-edit me-1"></i> Edit
+                        </a>
+                            
+                        <!-- Delete Button -->
+                        <form method="post" action="{% url 'Games:game_delete' game.id %}" 
+                            onsubmit="return confirm('Are you sure you want to delete {{game.title}} game ? This action cannot be undone.');"
+                            class="m-0 p-0 d-inline"
+                        >
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-danger fw-bold">
+                                <i class="fa fa-trash me-1"></i> Delete
+                            </button>
+                        </form>
+                    </div>
+                    
+                    {% if game.categories.all %}
+                        {% for category in game.categories.all %}
+                            <span class="badge bg-info text-dark category-badge mb-4">{{ category.name }}</span>
+                        {% endfor %}
+                    {% endif %}
+
+                    <!-- Game Description -->
+                    <h2 class="h5 mt-3 pt-3 pb-2 game-detail-info-label">OVERVIEW</h2>
+                    <p class="text-secondary mb-4">{{ game.description|default:"No detailed description is currently available for this game. But it's certainly fun!" }}</p>
+
+                    <!-- Additional Details Grid -->
+                    <div class="row row-cols-2 g-3 mt-4 border-top pt-3">
+                        
+                        <div class="col">
+                            <p class="game-detail-info-label mb-0">RELEASE DATE:</p>
+                            <p class="game-detail-info-value">{{ game.release_date|default:"Undetermined" }}</p>
+                        </div>
+
+                        <div class="col">
+                            <p class="game-detail-info-label mb-0">DEVELOPER:</p>
+                            <p class="game-detail-info-value">{{ game.publisher|default:"Unknown" }}</p>
+                        </div>
+
+                        <div class="col">
+                            <p class="game-detail-info-label mb-0">RATING:</p>
+                            <p class="game-detail-info-value text-warning">
+                                <i class="fa fa-star"></i> {{ game.rating|default:"N/A" }} / 5.0
+                            </p>
+                        </div>
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <br>
+
+    <!-- REVIEWS SECTION -->
+    <div class="mt-10 p-5 contact-card shadow-lg rounded">
+
+        <h2 class="section-title mb-4">Player Reviews {% if reviews.count == 0 %}({{ reviews.count }}){% else %}( Empty ){% endif %}</h2>
+
+            <!-- Add Review Form -->
+        {% comment %} {% if user.is_authenticated %} {% endcomment %}
+        <div class="mb-5">
+
+            <h4 class="fw-bold mb-3">Add Your Review</h4>
+
+            <form method="POST" action="{% url 'Games:add_review' game.id %}">
+                    
+                {% csrf_token %}
+
+                    <!-- RATING STAR INPUT -->
+                <div class="mb-4">
+
+                    <div class="mb-4">
+                        <label for="name" class="form-label">Your Name <span class="text-danger">*</span></label>
+                        <input type="text" class="form-control" id="name" name="name" placeholder="e.g., Abdullrahman " required>
+                    </div>
+
+                    <div class="mb-4">
+                        <label class="form-label">Your Review <span class="text-danger">*</span></label>
+                        <textarea class="form-control" name="comment" rows="4" placeholder="Share your experience..." required></textarea>
+                    </div>
+
+                    <label class="form-label d-block">Your Rating <span class="text-danger">*</span></label>
+                        
+                    <div class="rating">
+                        {% for i in "54321"|make_list %}
+                            <input type="radio" id="star{{i}}" name="rating" value="{{i}}" required>
+                            <label for="star{{i}}" title="{{i}} stars">
+                                <i class="fas fa-star"></i>
+                            </label>
+                        {% endfor %}
+                    </div>
+                </div>
+
+                <button type="submit" class="btn btn-primary bg-dark-custom border-0 p-3 fw-bold">
+                    Submit Review
+                </button>
+            </form>
+        </div>
+
+        {% comment %} {% else %}
+            <div class="alert alert-warning">
+                Please <a href="{% url 'login' %}" class="text-decoration-underline fw-bold">log in</a> to write a review.
+            </div>
+        {% endif %} {% endcomment %}
+
+        <!-- REVIEWS LIST -->
+        <h4 class="fw-bold mb-4">All Reviews</h4>
+
+        <div class="reviews-list">
+            {% for r in reviews %}
+                <div class="p-4 mb-4 border rounded shadow-sm bg-light">
+                        
+                    <div class="d-flex justify-content-between mb-2">
+                        <strong class="username">{{ r.name}}</strong>
+                        <span class="text-muted">{{ r.created_at }}</span>
+                    </div>
+
+                    <!-- Stars Display -->
+                    <div class="mb-2">
+                        {% for s in "12345"|make_list %}
+                            <i class="fas fa-star {% if s|add:'0' <= r.rating %}text-warning{% else %}text-secondary{% endif %}"></i>
+                        {% endfor %}
+                    </div>
+
+                    <p class="user_comment mb-0">{{ r.comment }}</p>
+
+                </div>
+            {% empty %}
+                <p class="text-muted text-center py-3">No reviews yet — be the first!</p>
+            {% endfor %}
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} {{ publisher.name }} {% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    <a href="{% url 'Publisher:publishers_page' %}" 
+       class="text-secondary back-btn-custom text-decoration-none mb-4 d-inline-block">
+        <i class="fa fa-arrow-left me-1"></i> Back to Publishers
+    </a>
+
+    <div class="publisher-info-card shadow-lg mb-5">
+
+        <div class="publisher-detail-header">
+
+            {% if publisher.logo %}
+            <img src="{{ publisher.logo.url }}" 
+                 class="publisher-detail-logo" 
+                 alt="{{ publisher.name }}">
+            {% else %}
+            <div class="publisher-detail-logo d-flex justify-content-center align-items-center text-muted">
+                No Logo
+            </div>
+            {% endif %}
+
+            <div>
+                <h1 class="fw-bold">{{ publisher.name }}</h1>
+                <p class="text-secondary">{{ publisher.description }}</p>
+            </div>
+
+        </div>
+
+    </div>
+
+    <h3 class="publisher-section-title">Games by {{ publisher.name }}</h3>
+
+    <div class="row g-4">
+
+        {% for g in game %}
+        <div class="col-sm-6 col-md-4 col-lg-3">
+
+            <div class="card shadow-lg border-0 h-100">
+
+                {% if g.poster %}
+                <img src="{{ g.poster.url }}" 
+                     class="card-img-top" 
+                     style="height:180px;object-fit:cover;">
+                {% endif %}
+
+                <div class="card-body d-flex flex-column">
+                    <h5 class="fw-bold">{{ g.title }}</h5>
+
+                    <a href="{% url 'Games:game_detail' g.id %}"
+                       class="btn btn-dark fw-bold mt-auto">View Game</a>
+                </div>
+
+            </div>
+
+        </div>
+        {% empty %}
+        <p class="text-center text-muted">This publisher has no games yet.</p>
+        {% endfor %}
+
+    </div>
+
+</div>
+{% endblock %}

@@ -1,0 +1,185 @@
+{% extends 'base.html' %}
+
+{% block title %}Create New Game - Games Haven{% endblock %}
+
+{% block extra_head %}
+<!-- ⬅️ إضافة ستايل CSS لنموذج النجوم والشرائح التفاعلية ➡️ -->
+<style>
+    /* ----------------------------------- */
+    /* STAR RATING STYLES */
+    /* ----------------------------------- */
+    .rating input {
+        display: none;
+    }
+    .rating label {
+        color: #ccc;
+        font-size: 2rem;
+        padding: 0 5px;
+        cursor: pointer;
+        transition: color 0.2s ease;
+    }
+    .rating {
+        direction: rtl; 
+        display: inline-block;
+    }
+    .rating label:hover,
+    .rating label:hover ~ label {
+        color: #ffc107;
+    }
+    .rating input:checked ~ label {
+        color: #ffc107;
+    }
+    .rating input:checked + label:hover,
+    .rating input:checked + label:hover ~ label {
+        color: #ffc107;
+    }
+
+    /* Dark Mode Compatibility for Rating Stars */
+    body.dark-mode .rating label { color: #555; }
+    body.dark-mode .rating label:hover,
+    body.dark-mode .rating label:hover ~ label,
+    body.dark-mode .rating input:checked ~ label { color: #ffdb58; }
+
+    /* ----------------------------------- */
+    /* CATEGORY PILLS STYLES (New) */
+    /* ----------------------------------- */
+    
+    /* الستايل الأساسي للزر (Label) */
+    .category-label {
+        border-radius: 50px;
+        padding: 8px 15px;
+        transition: all 0.2s ease;
+        border: 2px solid #ccc;
+        color: #333;
+        background-color: #f8f9fa; /* لون خلفية فاتح */
+        cursor: pointer;
+    }
+    
+    /* عند تحديد العنصر (Checkbox checked) */
+    .btn-check:checked + .category-label {
+        background-color: #1e1e1e; /* لون خلفية داكن للتحديد */
+        color: white !important;
+        border-color: #1e1e1e;
+        font-weight: bold;
+    }
+    
+    /* Dark Mode: الستايل الأساسي للزر */
+    body.dark-mode .category-label {
+        color: #ccc;
+        border-color: #555;
+        background-color: #2c2c2c; /* خلفية داكنة للزر */
+    }
+    
+    /* Dark Mode: عند تحديد العنصر */
+    body.dark-mode .btn-check:checked + .category-label {
+        background-color: #4db6ac !important; /* لون تمييز جديد لـ Dark Mode */
+        color: #1e1e1e !important;
+        border-color: #4db6ac !important;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+    
+    <header class="page-header text-center">
+        <h1 class="display-4 fw-bold">UPDATE {{game.title}}</h1>
+        <p class="lead">Submit the details for your new gaming title.</p>
+    </header>
+
+    <main class="container py-5">
+        <div class="row justify-content-center">
+            
+            <div class="col-lg-8">
+                <div class="card p-5 contact-card shadow-lg">
+                    <h3 class="section-title mb-4">Game Information</h3>
+                    
+                    <form method="POST" action="{% url 'Games:game_update' game.id %}" enctype="multipart/form-data"> 
+                        {% csrf_token %}
+                        <div class="mb-4">
+                            <label for="game_title" class="form-label">Game Title <span class="text-danger">*</span></label>
+                            <input type="text" value="{{game.title}}" class="form-control" id="game_title" name="title" placeholder="e.g., Cyberpunk 2077" required>
+                        </div>
+
+                        <div class="mb-4">
+                            {% comment %} <label for="pub" class="form-label">Game Publisher</label>
+                            <input type="text" class="form-control" id="pub" name="publisher" placeholder="The company who published the game"> {% endcomment %}
+                            <select name="publisher" class="form-select" required>
+                                <option>Game Publisher</option>
+                                {% for publisher in publishers%}
+                                    <option value="{{ publisher.id }}" {% if publisher == game.publisher %} selected {% endif %}>{{ publisher.name}}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        
+                        <div class="mb-4">
+                            <label for="full_description" class="form-label">Game Description <span class="text-danger">*</span></label>
+                            <textarea class="form-control" id="full_description" name="description" rows="5" placeholder="Detailed plot, gameplay mechanics, and features." required>{{game.description}}</textarea>
+                        </div>
+
+                        <!-- حقل التقييم (Rattings) -->
+                        <div class="mb-4">
+                            <label class="form-label d-block">Initial Rating (1-5) <span class="text-danger">*</span></label>
+                            <div class="rating">
+                                {% for val, label in RatingChoices %}
+                                    <input
+                                        type="radio"
+                                        id="{{ val }}"
+                                        name="rating"
+                                        value="{{ val }}"
+                                        {% if game.rating == val %}checked{% endif %}
+                                        required
+                                    >
+                                    <label for="{{ val }}" title="{{ val }} stars">
+                                        <i class="fas fa-star"></i>
+                                    </label>
+                                {% endfor %}
+
+                                {% comment %} <input type="radio" id="star4" name="rating" value="4">
+                                <label for="star4" title="4 stars"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star3" name="rating" value="3">
+                                <label for="star3" title="3 stars"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star2" name="rating" value="2">
+                                <label for="star2" title="2 stars"><i class="fas fa-star"></i></label>
+                                <input type="radio" id="star1" name="rating" value="1">
+                                <label for="star1" title="1 star"><i class="fas fa-star"></i></label>
+                            </div> {% endcomment %}
+                        </div>
+
+
+                        <div class="row mb-4">
+                            <div class="col-md-6">
+                                <label for="genre" class="form-label">Genres <span class="text-danger">*</span></label>
+                                <div class="category-pills d-flex flex-wrap gap-2 border p-3 rounded">
+                                    {% for category in categories %}
+                                        <input type="checkbox" id="category_{{ category.name|slugify }}" name="categories" value="{{ category.id }}" class="btn-check" autocomplete="off" {% if category in game.categories.all %} checked {% endif %}>
+                                        <label class="btn category-label" for="category_{{ category.name|slugify }}">
+                                            {{ category.name }}
+                                        </label>
+                                    {% endfor %}
+                                </div>
+                                <div class="form-text">Click to select one or more categories.</div>
+                                
+                            </div>
+
+                            <div class="col-md-6">
+                                <label for="release_date" class="form-label">Release Date <span class="text-danger">*</span></label>
+                                <input type="date" value="{{game.release_date.isoformat}}" class="form-control" id="release_date" name="release_date" required>
+                            </div>
+                        </div>
+
+                        <div class="mb-4">
+                            <label for="cover_image" class="form-label">Cover Image</label>
+                            <input class="form-control" type="file" id="cover_image" name="poster" accept="image/*">
+                            <div class="form-text">Accepted formats: JPG, PNG. Max size: 5MB.</div>
+                        </div>
+
+                        <div class="d-grid gap-2 mt-5">
+                            <button type="submit" class="btn btn-primary bg-dark-custom border-0 p-3 fw-bold">Update Game Details</button>
+                        </div>
+                        
+                    </form>
+                </div>
+            </div>
+        </div>
+    </main>
+{% endblock content %}

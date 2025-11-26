@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} Add Publisher {% endblock %}
+
+{% block content %}
+<div class="container py-5">
+
+    <h1 class="fw-bold mb-4">Add New Publisher</h1>
+
+    <div class="publisher-info-card shadow-lg">
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <div class="mb-4">
+                <label class="form-label fw-bold">Publisher Name</label>
+                {{ form.name }}
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold">Description</label>
+                {{ form.description }}
+            </div>
+
+            <div class="mb-4">
+                <label class="form-label fw-bold">Logo</label>
+                {{ form.logo }}
+            </div>
+
+            <button class="btn btn-primary bg-dark-custom border-0 w-100 p-3 fw-bold">
+                Add Publisher
+            </button>
+        </form>
+    </div>
+
+</div>
+{% endblock %}
