@@ -1,54 +1,89 @@
 {% extends "base.html" %}
 {% load static %}
 
-{% block title %} Publishers {% endblock %}
-
 {% block content %}
-<div class="container py-5">
 
+<!-- ============== HERO SECTION ============== -->
+<section class="hero-section container py-5">
+    <div class="row align-items-center">
+        <div class="col-lg-6">
+            <h1 class="fw-bold mb-3" style="font-size: 48px;">
+                Explore Top Game Publishers
+            </h1>
+            <p class="text-muted" style="font-size: 18px;">
+                Discover the world's leading studios behind the most iconic and innovative games.
+                Browse publishers, explore their games, and learn their history.
+            </p>
+        </div>
+        <div class="col-lg-6 text-center">
+            <img src="/media/images/publisher_hero.png"
+                class="img-fluid rounded-4 shadow"
+                alt="Publishers">
+        </div>
+    </div>
+</section>
+
+<!-- ============== PUBLISHERS LIST ============== -->
+<section class="container pb-5">
     <div class="d-flex justify-content-between align-items-center mb-4">
-        <h1 class="fw-bold">Publishers</h1>
+        <h2 class="fw-bold">Publishers</h2>
 
-        <a href="{% url 'Publisher:add_publisher' %}"
-           class="btn btn-primary bg-dark-custom border-0 fw-bold">
-            <i class="fa fa-plus me-1"></i> Add Publisher
+        <a href="{% url 'Publisher:add_publisher' %}" class="btn btn-dark fw-bold">
+            <i class="fa-solid fa-plus"></i> Add Publisher
         </a>
     </div>
 
     <div class="row g-4">
 
         {% for publisher in publishers %}
-        <div class="col-sm-6 col-md-4 col-lg-3">
+<div class="col-md-6 col-lg-4 col-xl-3">
+    <div class="publisher-card-new shadow-sm">
 
-            <div class="publisher-card shadow-lg border-0">
-
-                {% if publisher.logo %}
-                <img src="{{ publisher.logo.url }}" 
-                     class="publisher-logo" 
-                     alt="{{ publisher.name }}">
-                {% else %}
-                <div class="publisher-logo d-flex justify-content-center align-items-center text-muted">
-                    No Logo
-                </div>
-                {% endif %}
-
-                <div class="card-body text-center">
-                    <h5 class="publisher-name">{{ publisher.name }}</h5>
-
-                    <a href="{% url 'Publisher:publisher_games' publisher.id %}"
-                       class="btn btn-outline-dark w-100 mt-3 fw-bold">
-                        View Games
-                    </a>
-                </div>
-
+        <div class="publisher-image-wrapper">
+            <img src="{{ publisher.logo.url }}" class="publisher-image" alt="{{ publisher.name }}">
+            <div class="publisher-overlay">
+                <h4 class="publisher-name">{{ publisher.name }}</h4>
             </div>
-
         </div>
-        {% empty %}
-        <p class="text-center text-muted py-5">No publishers added yet.</p>
-        {% endfor %}
+
+        <div class="publisher-card-body">
+            <a href="{% url 'Publisher:publisher_detail' publisher.id %}" class="btn btn-dark w-100 fw-bold mt-2">
+                View Games →
+            </a>
+        </div>
 
     </div>
-
 </div>
+
+
+        {% empty %}
+            <p class="text-center text-muted py-5">No publishers found.</p>
+        {% endfor %}
+    </div>
+</section>
+
+<style>
+    .publisher-card {
+        border-radius: 16px;
+        overflow: hidden;
+        transition: transform .25s ease, box-shadow .25s ease;
+    }
+
+    .publisher-card:hover {
+        transform: translateY(-5px);
+        box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+    }
+
+    .publisher-img {
+        height: 180px;
+        object-fit: cover;
+        border-bottom: 1px solid #eee;
+    }
+
+    .hero-section img {
+        max-height: 340px;
+        object-fit: cover;
+    }
+</style>
+
 {% endblock %}

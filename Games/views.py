@@ -77,36 +77,28 @@ def all_games(requset):
 
 
 
-def search_games(requset):
+def search_games(request):
     
-    if "search" in requset.GET : # and len(requset.GET["search"]) >= 0 
-        games = Game.objects.filter(title__contains=requset.GET["search"])
+    search_query = request.GET.get("search", "")
+    sort_option = request.GET.get("sort", "")
 
-        if "sort" in requset.GET and requset.GET["sort"] == "rating_desc":
-            games = Game.objects.all().order_by("-rating")
+    games = Game.objects.filter(title__icontains=search_query)
 
-        elif "sort" in requset.GET and requset.GET["sort"] == "rating_asc":
-            games = Game.objects.all().order_by("rating")
+    if sort_option == "rating_desc":
+        games = games.order_by("-rating")
+    elif sort_option == "rating_asc":
+        games = games.order_by("rating")
+    elif sort_option == "newest":
+        games = games.order_by("-release_date")
+    elif sort_option == "oldest":
+        games = games.order_by("release_date")
+    elif sort_option == "title_az":
+        games = games.order_by("title")
+    elif sort_option == "title_za":
+        games = games.order_by("-title")
 
-        elif "sort" in requset.GET and requset.GET["sort"] == "newest":
-            games = Game.objects.all().order_by("-release_date")
+    return render(request, "Games/search_games.html", {"games": games})
 
-        elif "sort" in requset.GET and requset.GET["sort"] == "oldest":
-            games = Game.objects.all().order_by("release_date")
-
-        elif "sort" in requset.GET and requset.GET["sort"] == "title_az":
-            games = Game.objects.all().order_by("title")
-
-        elif "sort" in requset.GET and requset.GET["sort"] == "title_za":
-            games = Game.objects.all().order_by("-title")
-
-        else:
-            games = Game.objects.all()
-        
-    else :
-        games = []
-    
-    return render(requset, "Games/search_games.html", {"games": games})
 
 
 def add_review(requset,game_id):

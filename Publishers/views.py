@@ -20,7 +20,7 @@ def add_publisher(requset):
 
 
 def publishers(requset):
-    publishers = Publisher.objects.all()[0:8]
+    publishers = Publisher.objects.all()
     return render(requset,"publishers/publishers.html",{"publishers":publishers})
 
 
@@ -28,9 +28,10 @@ def publishers(requset):
 def publisher_detail(requset,publisher_id):
 
     publisher = Publisher.objects.get(pk=publisher_id)
-    game = Game.objects.filter(publisher=publisher).order_by('-created_at')
+    games = Game.objects.filter(publisher=publisher).order_by('-release_date')
+    
     context = {
-        "game": game,
+        "games": games,
         "publisher": publisher,
     }
     

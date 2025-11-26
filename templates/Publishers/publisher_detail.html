@@ -6,7 +6,7 @@
 {% block content %}
 <div class="container py-5">
 
-    <a href="{% url 'Publisher:publishers_page' %}" 
+    <a href="{% url 'Publisher:publishers' %}" 
        class="text-secondary back-btn-custom text-decoration-none mb-4 d-inline-block">
         <i class="fa fa-arrow-left me-1"></i> Back to Publishers
     </a>
@@ -34,36 +34,55 @@
 
     </div>
 
-    <h3 class="publisher-section-title">Games by {{ publisher.name }}</h3>
-
-    <div class="row g-4">
-
-        {% for g in game %}
-        <div class="col-sm-6 col-md-4 col-lg-3">
-
-            <div class="card shadow-lg border-0 h-100">
-
-                {% if g.poster %}
-                <img src="{{ g.poster.url }}" 
-                     class="card-img-top" 
-                     style="height:180px;object-fit:cover;">
-                {% endif %}
-
+    <h3 class="section-title text-center">Games by {{ publisher.name }}</h3>
+    
+    <div class="row g-4 mt-2">
+                
+        {% for game in games %}
+                
+        <div class="col-sm-6 col-md-6 col-lg-4 col-xl-3">
+            <div class="card game-card h-100 shadow-lg border-0 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-105">
+                        
+                <img src="{{ game.poster.url }}" class="card-img-top game-card-img" alt="Game Cover">
+                        
                 <div class="card-body d-flex flex-column">
-                    <h5 class="fw-bold">{{ g.title }}</h5>
+                    <h5 class="card-title fw-bold game-card-title">{{ game.title }}</h5>
 
-                    <a href="{% url 'Games:game_detail' g.id %}"
-                       class="btn btn-dark fw-bold mt-auto">View Game</a>
+                    <div class="star-rating d-flex mb-3">
+                        {% for i in "12345"|make_list %}
+                            <i class="fas fa-star me-1 {% if i|add:'0' <= game.rating %}active{% else %}inactive{% endif %}"></i>
+                        {% endfor %}
+                        <span class="ms-1 small text-muted fw-bold">({{ game.rating|default:'0' }}/5)</span>
+                    </div>
+
+                    <div class="mb-3 d-flex flex-wrap gap-2">
+                        {% if game.categories.all %}
+                            {% for category in game.categories.all %}
+                                <span class="category-badge">{{ category.name }}</span>
+                            {% endfor %}
+                        {% else %}
+                            <span class="text-muted small">No categories specified.</span>
+                        {% endif %}
+                    </div>
+
+                    <p class="card-text flex-grow-1">{{ game.description|truncatechars:100 }}</p>
+
+                    <a href="{% url 'Games:game_detail' game.id %}" class="btn btn-primary bg-dark-custom border-0 mt-3 p-2 fw-bold">
+                        View Game <i class="fas fa-arrow-right ms-1"></i>
+                    </a>
                 </div>
-
             </div>
-
         </div>
+                
         {% empty %}
-        <p class="text-center text-muted">This publisher has no games yet.</p>
+                
+        <div class="col-12 text-center">
+            <div class="alert alert-info" role="alert">
+                No games found in the catalog.
+            </div>
+        </div>
+                
         {% endfor %}
-
     </div>
-
 </div>
 {% endblock %}

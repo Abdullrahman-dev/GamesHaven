@@ -21,10 +21,16 @@
             <div class="collapse navbar-collapse justify-content-between" id="navbarNav">
                 <ul class="navbar-nav mx-auto mb-2 mb-lg-0">
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'Main:home' %}active{% endif %}" href="{% url 'Main:home' %}">Home</a>
+                        <a class="nav-link {% if request.resolver_match.url_name == 'Main' %}active{% endif %}" href="{% url 'Main:home' %}">Home</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link {% if request.resolver_match.url_name == 'Games:create_game' %}active{% endif %}" href="{% url 'Games:create_game' %}">Create Game</a>
+                        <a class="nav-link {% if request.resolver_match.app_name == 'Games' %}active{% endif %}" href="{% url 'Games:all_games' %}">Games</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.url_name == 'Games' %}active{% endif %}" href="{% url 'Games:create_game' %}">Create Game</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link {% if request.resolver_match.app_name == 'Publisher' %}active{% endif %}" href="{% url 'Publisher:publishers' %}">Publishers</a>
                     </li>
                     <li class="nav-item">
                         <a class="nav-link {% if request.resolver_match.url_name == 'Main:contact' %}active{% endif %}" href="{% url 'Main:contact' %}">Contact</a>

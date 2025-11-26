@@ -355,3 +355,49 @@ body.dark .publisher-detail-logo {
 body.dark .back-btn-custom {
     color: #ddd !important;
 }
+
+
+/* ===== NEW PREMIUM PUBLISHER CARD ===== */
+
+.publisher-card-new {
+    border-radius: 18px;
+    overflow: hidden;
+    background: #fff;
+    transition: transform .25s ease, box-shadow .25s ease;
+}
+
+.publisher-card-new:hover {
+    transform: translateY(-6px);
+    box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+.publisher-image-wrapper {
+    position: relative;
+    height: 200px;
+}
+
+.publisher-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.publisher-overlay {
+    position: absolute;
+    bottom: 0;
+    width: 100%;
+    padding: 14px;
+    background: linear-gradient(to top, rgba(0,0,0,0.65), rgba(0,0,0,0));
+    color: #fff;
+}
+
+.publisher-name {
+    margin: 0;
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.publisher-card-body {
+    padding: 15px;
+    text-align: center;
+}
