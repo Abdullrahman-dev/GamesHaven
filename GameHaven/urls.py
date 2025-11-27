@@ -24,4 +24,5 @@ urlpatterns = [
     path('', include("Main.urls")),
     path("games/", include("Games.urls")),
     path("publishers/", include("Publishers.urls")),
+    path("auth/", include("Auth.urls")),
 ] + static(settings.MEDIA_URL,document_root=settings.MEDIA_ROOT)

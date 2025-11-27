@@ -5,6 +5,7 @@ from Games.models import Game , Category
 
 
 def home(request):
+    
     games = Game.objects.all()[0:3]
     # FIX: Changed from a set {"games", games} to a dictionary {"games": games}
     return render(request,"Main/home.html",{"games": games})
