@@ -34,7 +34,7 @@ def loginn(requset) :
             login(requset,user)
             messages.success(requset,"Logged in successfuly","alert-success")
 
-            return redirect("Main:home")
+            return redirect(requset.GET.get("next","/"))
         
         else :
                 messages.error(requset,"Email or Passwords dosen't match !","alert-danger")
@@ -45,4 +45,4 @@ def loginn(requset) :
 def logoutt(requset) :
     logout(requset)
     messages.success(requset,"Logged out Successfuly","alert-success")
-    return redirect("Main:home")
+    return redirect(requset.GET.get("next","/"))

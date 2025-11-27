@@ -116,23 +116,25 @@
                     
                     <h1 class="game-detail-title">{{ game.title }}</h1>
 
-                    <div class="d-flex gap-2 mb-3 mt-1">
-                        <!-- Edit Button -->
-                        <a href="{% url 'Games:game_update' game.id %}" class="btn btn-sm btn-info text-white fw-bold">
-                            <i class="fa fa-edit me-1"></i> Edit
-                        </a>
-                            
-                        <!-- Delete Button -->
-                        <form method="post" action="{% url 'Games:game_delete' game.id %}" 
-                            onsubmit="return confirm('Are you sure you want to delete {{game.title}} game ? This action cannot be undone.');"
-                            class="m-0 p-0 d-inline"
-                        >
-                            {% csrf_token %}
-                            <button type="submit" class="btn btn-sm btn-danger fw-bold">
-                                <i class="fa fa-trash me-1"></i> Delete
-                            </button>
-                        </form>
-                    </div>
+                    {% if user.is_staff %}
+                        <div class="d-flex gap-2 mb-3 mt-1">
+                            <!-- Edit Button -->
+                            <a href="{% url 'Games:game_update' game.id %}" class="btn btn-sm btn-info text-white fw-bold">
+                                <i class="fa fa-edit me-1"></i> Edit
+                            </a>
+                                
+                            <!-- Delete Button -->
+                            <form method="post" action="{% url 'Games:game_delete' game.id %}" 
+                                onsubmit="return confirm('Are you sure you want to delete {{game.title}} game ? This action cannot be undone.');"
+                                class="m-0 p-0 d-inline"
+                            >
+                                {% csrf_token %}
+                                <button type="submit" class="btn btn-sm btn-danger fw-bold">
+                                    <i class="fa fa-trash me-1"></i> Delete
+                                </button>
+                            </form>
+                        </div>
+                    {% endif %}
                     
                     {% if game.categories.all %}
                         {% for category in game.categories.all %}
@@ -178,51 +180,51 @@
         <h2 class="section-title mb-4">Player Reviews {% if reviews.count == 0 %}({{ reviews.count }}){% else %}( Empty ){% endif %}</h2>
 
             <!-- Add Review Form -->
-        {% comment %} {% if user.is_authenticated %} {% endcomment %}
-        <div class="mb-5">
+        {% if user.is_authenticated %}
+            <div class="mb-5">
 
-            <h4 class="fw-bold mb-3">Add Your Review</h4>
+                <h4 class="fw-bold mb-3">Add Your Review</h4>
 
-            <form method="POST" action="{% url 'Games:add_review' game.id %}">
-                    
-                {% csrf_token %}
-
-                    <!-- RATING STAR INPUT -->
-                <div class="mb-4">
-
-                    <div class="mb-4">
-                        <label for="name" class="form-label">Your Name <span class="text-danger">*</span></label>
-                        <input type="text" class="form-control" id="name" name="name" placeholder="e.g., Abdullrahman " required>
-                    </div>
-
-                    <div class="mb-4">
-                        <label class="form-label">Your Review <span class="text-danger">*</span></label>
-                        <textarea class="form-control" name="comment" rows="4" placeholder="Share your experience..." required></textarea>
-                    </div>
-
-                    <label class="form-label d-block">Your Rating <span class="text-danger">*</span></label>
+                <form method="POST" action="{% url 'Games:add_review' game.id %}">
                         
-                    <div class="rating">
-                        {% for i in "54321"|make_list %}
-                            <input type="radio" id="star{{i}}" name="rating" value="{{i}}" required>
-                            <label for="star{{i}}" title="{{i}} stars">
-                                <i class="fas fa-star"></i>
-                            </label>
-                        {% endfor %}
+                    {% csrf_token %}
+
+                        <!-- RATING STAR INPUT -->
+                    <div class="mb-4">
+
+                        {% comment %} <div class="mb-4">
+                            <label for="name" class="form-label">Your Name <span class="text-danger">*</span></label>
+                            <input type="text" class="form-control" id="name" name="name" placeholder="{{user.first_name}}"  >
+                        </div> {% endcomment %}
+
+                        <div class="mb-4">
+                            <label class="form-label">Your Review <span class="text-danger">*</span></label>
+                            <textarea class="form-control" name="comment" rows="4" placeholder="Share your experience..." required></textarea>
+                        </div>
+
+                        <label class="form-label d-block">Your Rating <span class="text-danger">*</span></label>
+                            
+                        <div class="rating">
+                            {% for i in "54321"|make_list %}
+                                <input type="radio" id="star{{i}}" name="rating" value="{{i}}" required>
+                                <label for="star{{i}}" title="{{i}} stars">
+                                    <i class="fas fa-star"></i>
+                                </label>
+                            {% endfor %}
+                        </div>
                     </div>
-                </div>
 
-                <button type="submit" class="btn btn-primary bg-dark-custom border-0 p-3 fw-bold">
-                    Submit Review
-                </button>
-            </form>
-        </div>
-
-        {% comment %} {% else %}
-            <div class="alert alert-warning">
-                Please <a href="{% url 'login' %}" class="text-decoration-underline fw-bold">log in</a> to write a review.
+                    <button type="submit" class="btn btn-primary bg-dark-custom border-0 p-3 fw-bold">
+                        Submit Review
+                    </button>
+                </form>
             </div>
-        {% endif %} {% endcomment %}
+
+        {% else %}
+            <div class="alert alert-warning">
+                Please <a href="{% url 'Auth:loginn' %}" class="text-decoration-underline fw-bold">log in</a> to write a review.
+            </div>
+        {% endif %}
 
         <!-- REVIEWS LIST -->
         <h4 class="fw-bold mb-4">All Reviews</h4>
@@ -232,7 +234,7 @@
                 <div class="p-4 mb-4 border rounded shadow-sm bg-light">
                         
                     <div class="d-flex justify-content-between mb-2">
-                        <strong class="username">{{ r.name}}</strong>
+                        <strong class="username">{{ user.first_name }}</strong>
                         <span class="text-muted">{{ r.created_at }}</span>
                     </div>
 

@@ -2,6 +2,7 @@ from django.shortcuts import render,redirect
 from .models import Game,Category,Review
 from .forms import GameForm
 from Publishers.models import Publisher
+from django.contrib import messages
 # Create your views here.
 
 def create_game(requset):
@@ -16,6 +17,7 @@ def create_game(requset):
         
         if game_form.is_valid():
             game_form.save()
+            messages.success(requset,"Game Created Successfuly","alert-success")
             return redirect("Main:home")
         
         else :
@@ -38,6 +40,7 @@ def game_detail(requset,game_id):
 
 
 def game_update(requset,game_id):
+
     game = Game.objects.get(pk=game_id)
     categories = Category.objects.all()
     publishers = Publisher.objects.all()
@@ -46,6 +49,7 @@ def game_update(requset,game_id):
         game_form = GameForm(instance=game, data=requset.POST, files=requset.FILES)
         if game_form.is_valid():
             game_form.save()
+            messages.success(requset,"Game Updated Successfuly","alert-success")
             return redirect("Games:game_detail", game_id)
     else:
         game_form = GameForm(instance=game)
@@ -64,7 +68,8 @@ def game_delete(requset,game_id):
     
     game = Game.objects.get(pk=game_id)
     game.delete()
-    
+    messages.error(requset,"Game Deleted Successfuly","alert-denger")
+
     return redirect("Main:home") 
 
 
@@ -103,14 +108,20 @@ def search_games(request):
 
 def add_review(requset,game_id):
 
+    if not requset.user.is_authenticated :
+        messages.error(requset,"Only Registered Users Can Add Review","alert-danger")
+        return redirect("Auth:loginn")
+        
     if requset.method == "POST":
         game = Game.objects.get(pk=game_id)
         new_reviews = Review(
             game = game,
-            name = requset.POST["name"],
+            user = requset.user,
             comment = requset.POST["comment"],
             rating = requset.POST["rating"],
         )
         new_reviews.save()
+
+        messages.success(requset,"Added Review Successfuly","alert-success")
         
     return redirect("Games:game_detail",game_id=game_id)

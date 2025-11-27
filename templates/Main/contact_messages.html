@@ -1,0 +1,91 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}Admin Messages - Games Haven{% endblock %}
+
+{% block content %}
+    
+    <header class="page-header text-center py-5 bg-light-custom">
+        <h1 class="display-4 fw-bold">CONTACT MESSAGES DASHBOARD</h1>
+        <p class="lead">Review all messages submitted by users.</p>
+    </header>
+
+    <main class="container py-5">
+        <div class="row justify-content-center">
+            
+            <div class="col-12">
+                <div class="card p-4 contact-card shadow-lg rounded-4">
+                    <h3 class="section-title mb-4 fw-bold">Received Messages ' {{ messages_list|length }} '</h3>
+
+                    {% if messages_list %}
+                    <div class="table-responsive">
+                        <!-- Table displays message data -->
+                        <table class="table table-hover align-middle">
+                            <thead>
+                                <tr class="table-dark-custom">
+                                    <th scope="col">#</th>
+                                    <th scope="col">Date/Time</th>
+                                    <th scope="col">User (Name)</th>
+                                    <th scope="col">Email</th>
+                                    <th scope="col">Subject</th>
+                                    <th scope="col">Message Content</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for message in messages_list %}
+                                <tr class="{% cycle 'bg-light' '' %}">
+                                    <th scope="row">{{ forloop.counter }}</th>
+                                    <td>
+                                        {% if message.created_at %}
+                                            {{ message.created_at|date:"Y-m-d H:i" }}
+                                        {% else %}
+                                            N/A <!-- Display N/A if the created_at field is missing -->
+                                        {% endif %}
+                                    </td>
+                                    <td>
+                                        <i class="fa fa-user me-1"></i> 
+                                        {{ message.user.first_name|default:message.user.username }}
+                                    </td>
+                                    <td><span class="fw-bold">{{ message.user.username }}</span></td>
+                                    <td><span class="fw-bold">{{ message.subject|truncatechars:30 }}</span></td>
+                                    <td>{{ message.message|truncatechars:80 }}</td>
+                                </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                    {% else %}
+                        <div class="alert alert-info text-center" role="alert">
+                            <i class="fa fa-info-circle me-2"></i> No messages have been received yet.
+                        </div>
+                    {% endif %}
+
+                </div>
+            </div>
+            
+        </div>
+    </main>
+    
+    <!-- CSS for unifying the card and background design -->
+    <style>
+        .page-header {
+            background-color: var(--bs-light); /* Uses the light background color */
+            color: var(--bs-heading-color);
+        }
+        .contact-card {
+            background-color: var(--bs-body-bg);
+            border: 1px solid var(--bs-border-color);
+            transition: all 0.3s ease;
+        }
+        .table-dark-custom {
+            background-color: #343a40; /* Dark color for the table */
+            color: white;
+        }
+        .table-responsive {
+            border-radius: 0.5rem;
+            overflow: hidden;
+            border: 1px solid var(--bs-border-color);
+        }
+    </style>
+
+{% endblock content %}

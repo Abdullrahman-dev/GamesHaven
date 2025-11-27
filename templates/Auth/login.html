@@ -11,7 +11,7 @@
             <h1 class="fw-bold mb-4 text-center">Login to Your Account</h1>
 
             <div class="publisher-info-card shadow-lg p-5 rounded-4">
-                <form method="POST" action="{% url 'Auth:loginn' %}">
+                <form method="POST" action="{% url 'Auth:loginn' %}{% if 'next' in request.GET %}?next={{request.GET.next}}{% endif %}">
                     {% csrf_token %}
 
                     {% comment %} {% if messages %}

@@ -9,4 +9,5 @@ urlpatterns = [
     path("mode/<mode>/",views.mode_view,name="mode_view"),
     path("contact/",views.contact,name="contact"),
     path("about/",views.about,name="about"),
+    path("contact/messages/",views.contact_messages,name="contact_messages"),
 ]

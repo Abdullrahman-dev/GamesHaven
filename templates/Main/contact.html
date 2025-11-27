@@ -16,21 +16,22 @@
                 <div class="card p-4 contact-card shadow-lg">
                     <h3 class="section-title mb-4">Send us a Message</h3>
                     <form method="POST"> 
-                        <div class="mb-3">
+                        {% csrf_token %}
+                        {% comment %} <div class="mb-3">
                             <label for="name" class="form-label">Name</label>
                             <input type="text" class="form-control" id="name" required>
-                        </div>
-                        <div class="mb-3">
+                        </div> {% endcomment %}
+                        {% comment %} <div class="mb-3">
                             <label for="email" class="form-label">Email address</label>
                             <input type="email" class="form-control" id="email" required>
-                        </div>
+                        </div> {% endcomment %}
                         <div class="mb-3">
                             <label for="subject" class="form-label">Subject</label>
-                            <input type="text" class="form-control" id="subject">
+                            <input type="text" class="form-control" id="subject" name="subject">
                         </div>
                         <div class="mb-3">
                             <label for="message" class="form-label">Message</label>
-                            <textarea class="form-control" id="message" rows="5" required></textarea>
+                            <textarea class="form-control" id="message" name="message" rows="5" required></textarea>
                         </div>
                         <button type="submit" class="btn btn-primary bg-dark-custom border-0 w-100">Send Message</button>
                     </form>

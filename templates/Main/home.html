@@ -91,4 +91,77 @@
         </div>
     </section>
 
+    <section class="our-games-section py-5">
+        <div class="container-xl">
+
+            <!-- START: Added link to All Games -->
+            <div class="d-flex justify-content-between align-items-center mb-5">
+                <h2 class="section-title text-center m-0">POPULAR GAMES</h2>
+                <a href="{% url 'Games:all_games' %}" class="btn btn-outline-info btn-sm fw-bold transition-all duration-300">
+                    See All Popular Games <i class="fas fa-arrow-right ms-2"></i>
+                </a>
+            </div>
+            
+            <div class="row g-4">
+                
+                {% for populer_game in populer_games %}
+                
+                <div class="col-sm-6 col-md-6 col-lg-4">
+                    <div class="card game-card h-100 shadow-lg border-0 rounded-xl overflow-hidden transition-all duration-300 hover:shadow-2xl hover:scale-105">
+                        
+                        <img src="{{ populer_game.poster.url }}" 
+                             class="card-img-top" 
+                             alt="{{ populer_game.title }} Cover"
+                             style="height: 200px; object-fit: cover;">
+                        
+                        <div class="card-body d-flex flex-column">
+                            <h5 class="card-title fw-bold mb-1">{{ populer_game.title }}</h5>
+                            
+                            <div class="d-flex justify-content-between align-items-center mb-2">
+                                <div class="star-rating d-flex">
+                                    {% for i in "12345"|make_list %}
+                                        <i class="fas fa-star me-1 {% if i|add:'0' <= populer_game.rating %}active{% else %}inactive{% endif %}"></i>
+                                    {% endfor %}
+                                    <span class="ms-1 small text-muted fw-bold">({{ populer_game.rating|default:'0' }}/5)</span>
+                                </div>
+                                
+                                <p class="card-text text-muted small mb-0">
+                                    <i class="far fa-calendar-alt me-1"></i> {{ populer_game.release_date|default:"TBD" }}
+                                </p>
+                            </div>
+                            
+                            <div class="mb-3 d-flex flex-wrap">
+                                {% if populer_game.categories.all %}
+                                    {% for category in populer_game.categories.all %}
+                                        <span class="category-badge">{{ category.name }}</span>
+                                    {% endfor %}
+                                {% else %}
+                                    <span class="text-muted small">No categories specified.</span>
+                                {% endif %}
+                            </div>
+
+                            <p class="card-text flex-grow-1">{{ populer_game.description|truncatechars:100 }}</p>
+
+                            {% comment %} {% url 'game_detail' game.slug %} {% endcomment %}
+                            <a href="{% url 'Games:game_detail' populer_game.id %}" class="btn btn-primary bg-dark-custom border-0 mt-3 p-2 fw-bold">
+                                View Game <i class="fas fa-arrow-right ms-1"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                
+                {% empty %}
+                
+                <div class="col-12 text-center">
+                    <div class="alert alert-info" role="alert">
+                        No games found currently. Please check back later or add a new one!
+                    </div>
+                </div>
+                
+                {% endfor %}
+            </div>
+            
+        </div>
+    </section>
+
 {% endblock %}
