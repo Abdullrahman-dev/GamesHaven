@@ -1,0 +1,138 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %} {{ target_user.first_name }}'s Profile {% endblock %}
+
+{% block content %}
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-8">
+
+            <!-- Card Profile -->
+            <div class="profile-card shadow-lg p-5 rounded-4">
+                
+                <!-- Profile Header -->
+                <div class="text-center mb-5">
+                    <!-- Assumes 'avatar' field exists in the Profile Model -->
+                    <img src="{{ user_profile.avatar.url }}" 
+                         class="profile-avatar mb-4 shadow-lg border border-5 border-light-subtle" 
+                         alt="{{ user.first_name }} Avatar">
+                    
+                    <h1 class="fw-bold mb-1">{{ user.first_name }}</h1>
+                    <p class="text-secondary fst-italic">@{{ user.first_name|truncatechars:20 }}</p>
+                    
+                    {% if user.id == user.id %}
+                    <!-- Placeholder for Edit Profile link -->
+                    <a href="#" class="btn btn-outline-dark mt-3 fw-bold">
+                        <i class="fas fa-edit me-2"></i> Edit Profile
+                    </a>
+                    {% endif %}
+                </div>
+
+                <!-- Profile Details -->
+                <div class="row g-4 mb-5">
+                    
+                    <!-- About Section -->
+                    <div class="col-12">
+                        <h4 class="section-title mb-3"><i class="fas fa-info-circle me-2 text-primary"></i> About Me</h4>
+                        <div class="p-3 bg-light rounded-3">
+                            <p class="mb-0 text-muted">
+                                {% if user_profile.about %}
+                                    {{ user_profile.about }}
+                                {% else %}
+                                    No personal bio added yet.
+                                {% endif %}
+                            </p>
+                        </div>
+                    </div>
+
+                    <!-- Contact & Links -->
+                    <div class="col-md-6">
+                        <h4 class="section-title mb-3"><i class="fas fa-envelope me-2 text-primary"></i> Email Address</h4>
+                        <p class="lead">{{ user.username }}</p>
+                    </div>
+
+                    <div class="col-md-6">
+                        <h4 class="section-title mb-3"><i class="fab fa-twitch me-2 text-primary"></i> Twitch Link</h4>
+                        {% if user_profile.twitch_link %}
+                            <a href="{{ user_profile.twitch_link }}" target="_blank" class="lead text-decoration-none">
+                                Twitch Channel
+                            </a>
+                        {% else %}
+                            <p class="lead text-muted">No link available</p>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row justify-content-center">
+                <div class="col-lg-10">
+                    <h2 class="fw-bold mb-4 mt-5"><i class="fas me-2 text-danger"></i> {{ user.first_name }}'s Liked Games " {{ liked_games|length }} "</h2>
+                    
+                    {% if liked_games %}
+                    <div class="row g-4">
+                        {% for game in liked_games %}
+                        <div class="col-sm-6 col-md-4 col-lg-3">
+                            <div class="card shadow-sm border-0 h-100 game-card">
+                                
+                                <!-- Game Poster (Assuming 'poster' is an ImageField on the Game model) -->
+                                {% if game.poster %}
+                                <img src="{{ game.poster.url }}" 
+                                    class="card-img-top game-poster" 
+                                    alt="{{ game.title }}"
+                                    style="height: 180px; object-fit: cover;">
+                                {% else %}
+                                <div class="game-poster-placeholder d-flex justify-content-center align-items-center text-muted" 
+                                    style="height: 180px; background-color: var(--bs-light);">
+                                    No Poster
+                                </div>
+                                {% endif %}
+
+                                <div class="card-body d-flex flex-column">
+                                    <h5 class="fw-bold mb-3">{{ game.title|truncatechars:30 }}</h5>
+                                    
+                                    <!-- Assuming a 'Games:game_detail' URL exists and accepts game.id -->
+                                    <a href="{% url 'Games:game_detail' game.id %}" 
+                                    class="btn btn-dark fw-bold mt-auto">
+                                        View Game <i class="fas fa-arrow-right ms-1"></i>
+                                    </a>
+                                </div>
+                            </div>
+                        </div>
+                        {% endfor %}
+                    </div>
+                    {% else %}
+                    <div class="alert alert-info text-center" role="alert">
+                        {{ target_user.first_name }} hasn't liked any games yet.
+                    </div>
+                    {% endif %}
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Custom Styles for Profile Page -->
+<style>
+    .profile-card {
+        background-color: var(--bs-body-bg); /* Use base background color */
+        border: 1px solid var(--bs-border-color);
+    }
+    .profile-avatar {
+        width: 150px;
+        height: 150px;
+        object-fit: cover;
+        border-radius: 50%;
+    }
+    .section-title {
+        font-weight: 700;
+        color: var(--bs-heading-color);
+        font-size: 1.25rem;
+    }
+    .bg-light {
+        background-color: var(--bs-secondary-bg) !important;
+    }
+</style>
+{% endblock %}

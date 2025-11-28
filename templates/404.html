@@ -1,0 +1,70 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}404 - Page Not Found{% endblock %}
+
+{% block content %}
+<div class="container py-5 d-flex justify-content-center align-items-center" style="min-height: 70vh;">
+    <div class="text-center">
+        
+        <!-- Large Error Number -->
+        <h1 class="display-1 fw-bolder text-dark-custom mb-4" style="font-size: 8rem;">404</h1>
+        
+        <!-- Catchy Title -->
+        <h2 class="display-5 fw-bold mb-3">
+            <i class="fas fa-ghost me-2"></i>
+            Page Not Found!
+        </h2>
+        
+        <!-- Descriptive Message -->
+        <p class="lead text-muted mb-5">
+            Sorry, we couldn't find the page you were looking for. 
+            The link might be incorrect or the page may have been moved.
+        </p>
+        
+        <!-- Back to Home Button -->
+        <a href="{% url 'Main:home' %}" class="btn btn-dark-custom btn-lg fw-bold px-5 py-3 shadow-lg rounded-pill">
+            Go to Homepage
+        </a>
+        
+        <!-- Optional: Small link to report issue -->
+        <p class="mt-4">
+            <a href="{% url 'Main:contact' %}" class="text-secondary text-decoration-none">
+                Report an issue
+            </a>
+        </p>
+
+    </div>
+</div>
+
+<style>
+    /* Custom style to ensure the dark mode compatibility for the large number */
+    .text-dark-custom {
+        color: #212529 !important; /* Normal Mode Color */
+    }
+    .dark .text-dark-custom {
+        color: #ffffff !important; /* Dark Mode Color */
+        text-shadow: 0 0 10px rgba(255, 255, 255, 0.1);
+    }
+    .btn-dark-custom {
+        background-color: #212529;
+        border-color: #212529;
+        color: white;
+        transition: all 0.3s;
+    }
+    .btn-dark-custom:hover {
+        background-color: #000000;
+        border-color: #000000;
+        transform: translateY(-2px);
+    }
+    .dark .btn-dark-custom {
+        background-color: #f8f9fa;
+        border-color: #f8f9fa;
+        color: #212529;
+    }
+    .dark .btn-dark-custom:hover {
+        background-color: #e2e6ea;
+        border-color: #e2e6ea;
+    }
+</style>
+{% endblock %}
