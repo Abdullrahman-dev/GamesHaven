@@ -51,19 +51,18 @@ body.dark .contact-card {
 
 
 body {
-    background-color: #f8f9fa; /* خلفية بيضاء خفيفة */
+    background-color: #f8f9fa;
     font-family: 'Poppins', sans-serif;
     color: #343a40;
 }
 
-/* 2. شريط التنقل (Navbar) */
+/*  Navbar */
 .bg-dark-custom {
     background-color: #1a1a1a !important; 
 }
 
 .logo-text {
-    /* لون الشعار (Games.Haven) */
-    color: #00bcd4 !important; /* أزرق سماوي جديد */
+    color: #00bcd4 !important; 
     font-weight: 900; 
     font-size: 1.5rem;
 }
@@ -77,16 +76,15 @@ body {
 
 .navbar-nav .nav-link:hover,
 .navbar-nav .nav-link.active {
-    color: #00bcd4 !important; /* لون التمييز */
+    color: #00bcd4 !important; 
 }
 
-/* 3. القسم الترويجي (Hero Section) */
+/* Hero Section  */
 .hero-title {
     font-size: 4rem; 
     font-weight: 900 !important;
     line-height: 1.1;
     color: #212529; 
-    /* إضافة تظليل بسيط للنص */
     text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
 }
 
@@ -95,17 +93,16 @@ body {
     font-size: 1.25rem;
 }
 
-/* تصميم المربع البصري الجديد */
+
 .visual-gradient-box {
     width: 100%;
     max-width: 450px;
     height: 350px;
-    border-radius: 15px; /* حواف مستديرة */
-    /* تدرج لوني عصري (Modern Gradient) */
+    border-radius: 15px;
     background: linear-gradient(135deg, #ff7e5f, #feb47b, #a8c0ff, #3f51b5);
     background-size: 400% 400%;
-    animation: gradientShift 10s ease infinite; /* إضافة حركة بسيطة */
-    position: relative; /* مهم */
+    animation: gradientShift 10s ease infinite; 
+    position: relative; 
 }
 
 @keyframes gradientShift {
@@ -123,13 +120,12 @@ body {
     font-weight: 900;
     font-size: 2rem;
     color: #212529;
-    /* خط سفلي بسيط للعناوين */
     border-bottom: 3px solid #00bcd4;
     display: inline-block;
     padding-bottom: 5px;
 }
 
-/* 4. التذييل (Footer) */
+/*  Footer  */
 .bg-light-custom {
     background-color: #f1f1f1 !important;
 }
@@ -153,7 +149,7 @@ body {
     color: #00bcd4 !important;
 }
 
-/* 5. تنسيقات الصفحات الداخلية (Contact & About) */
+/*  Contact & About  */
 .page-header {
     background: linear-gradient(90deg, #1a1a1a, #343a40);
     color: white;
@@ -173,16 +169,16 @@ body {
     box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
 }
 
+
 /* cards in home page : */
 
-/* Styles for Star Rating Display */
 .game-card .star-rating .fa-star {
-    color: #ffc107; /* لون النجمة النشطة (ذهبي) */
+    color: #ffc107; 
     font-size: 0.9rem;
 }
 
 .game-card .star-rating .fa-star.inactive {
-    color: #e4e5e9; /* لون النجمة غير النشطة (رمادي فاتح) */
+    color: #e4e5e9; 
 }
         
 /* Styles for Category Badges */
@@ -196,8 +192,8 @@ body {
     border-radius: 0.25rem;
     margin-right: 5px;
     margin-bottom: 5px;
-    background-color: #e9ecef; /* Light background */
-    color: #495057; /* Dark text */
+    background-color: #e9ecef; 
+    color: #495057; 
 }
 
 /* Dark Mode adjustment for badges */
@@ -206,7 +202,7 @@ body.dark-mode .category-badge {
     color: #adb5bd;
 }
 
-/* Sorting Buttons */
+
 /* Sorting Bar */
 .sorting-bar {
     margin-bottom: 20px;
@@ -253,16 +249,12 @@ body.dark .sorting-select:hover {
 
 
 /* Comments : */
-
 .user_comment , .username{
     color: black;
 }
 
-/* ================================================
-   PUBLISHERS STYLING
-   ================================================ */
 
-/* Publisher Card */
+/*  PUBLISHERS STYLING  */
 .publisher-card {
     border-radius: 14px;
     overflow: hidden;
@@ -406,5 +398,5 @@ body.dark .back-btn-custom {
 #controller-3d {
     width: 100%;
     height: 100%;
-    min-height: 350px; /* مهم */
+    min-height: 350px; 
 }

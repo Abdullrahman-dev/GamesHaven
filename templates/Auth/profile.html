@@ -76,7 +76,7 @@
                         <div class="col-sm-6 col-md-4 col-lg-3">
                             <div class="card shadow-sm border-0 h-100 game-card">
                                 
-                                <!-- Game Poster (Assuming 'poster' is an ImageField on the Game model) -->
+                                <!-- Game Poster -->
                                 {% if game.poster %}
                                 <img src="{{ game.poster.url }}" 
                                     class="card-img-top game-poster" 
@@ -92,7 +92,6 @@
                                 <div class="card-body d-flex flex-column">
                                     <h5 class="fw-bold mb-3">{{ game.title|truncatechars:30 }}</h5>
                                     
-                                    <!-- Assuming a 'Games:game_detail' URL exists and accepts game.id -->
                                     <a href="{% url 'Games:game_detail' game.id %}" 
                                     class="btn btn-dark fw-bold mt-auto">
                                         View Game <i class="fas fa-arrow-right ms-1"></i>
