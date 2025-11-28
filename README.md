@@ -96,7 +96,7 @@ The platform provides browsing of games, publishers, user profiles, and a contac
 
 ## 🎥 Demo Video
 
-- In folder called VID-DEMO
+- https://github.com/Abdullrahman-dev/GamesHaven/releases/download/DEMO/DEMO.mp4
 
 # 👨‍💻 Developer
 
