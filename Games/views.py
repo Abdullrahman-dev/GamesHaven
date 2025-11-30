@@ -3,6 +3,8 @@ from .models import Game,Category,Review
 from .forms import GameForm
 from Publishers.models import Publisher
 from django.contrib import messages
+from django.contrib.auth.models import User
+
 # Create your views here.
 
 def create_game(requset):

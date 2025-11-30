@@ -52,9 +52,11 @@ def logoutt(requset) :
 
 def profile(requset,user_id) :
     try :
+        
         user = User.objects.get(pk=user_id)
         user_profile = user.profile
+
     except :
         return render(requset,'404.html')
     
-    return render(requset, "Auth/profile.html", {"user_profile": user_profile})
+    return render(requset, "Auth/profile.html", {"user_profile": user_profile,"user":user})

@@ -21,11 +21,11 @@
                     <h1 class="fw-bold mb-1">{{ user.first_name }}</h1>
                     <p class="text-secondary fst-italic">@{{ user.first_name|truncatechars:20 }}</p>
                     
-                    {% if user.id == user.id %}
-                    <!-- Placeholder for Edit Profile link -->
-                    <a href="#" class="btn btn-outline-dark mt-3 fw-bold">
-                        <i class="fas fa-edit me-2"></i> Edit Profile
-                    </a>
+                    {% if user.id == user_profile.user_id %}
+                        <!-- Placeholder for Edit Profile link -->
+                        <a href="#" class="btn btn-outline-dark mt-3 fw-bold">
+                            <i class="fas fa-edit me-2"></i> Edit Profile
+                        </a>
                     {% endif %}
                 </div>
 
